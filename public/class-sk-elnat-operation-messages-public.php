@@ -212,7 +212,7 @@ class Sk_Elnat_Operation_Messages_Public {
 	 * @return bool
 	 */
 	public function save_messages( $messages = array() ) {
-		$messages = false;
+
 		if(empty( $messages )){
 			sk_log('Empty result when parsing html for operation messages', $messages );
 			return false;
