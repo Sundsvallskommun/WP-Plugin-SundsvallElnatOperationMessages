@@ -31,6 +31,10 @@ class Sk_Elnat_Operation_Messages_Activator {
 	 */
 	public static function activate() {
 
+		if (! wp_next_scheduled ( 'sk_elnat_import_messages' )) {
+			wp_schedule_event(time(), 'minute', 'sk_elnat_import_messages');
+		}
+
 	}
 
 }

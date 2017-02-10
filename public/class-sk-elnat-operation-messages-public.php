@@ -23,6 +23,7 @@
 class Sk_Elnat_Operation_Messages_Public {
 
 	private $hash = 'a95c530a7af5f492a74499e70578d150';
+	private $html_file = 'http://sundsvallelnat.se/default.aspx?id=1055';
 
 	/**
 	 * The ID of this plugin.
@@ -53,6 +54,22 @@ class Sk_Elnat_Operation_Messages_Public {
 		add_shortcode( 'elnat-operation-messages', array( $this, 'output' ) );
 	}
 
+	/**
+	 * Adding custom action for cron schedule to be fired every minute.
+	 *
+	 * @author Daniel Pihlström <daniel.pihlstrom@cybercom.com>
+	 *
+	 * @return mixed
+	 */
+	public function add_cron_interval() {
+		// add an event hook every minute
+		$schedules['minute'] = array(
+			'interval' => 60,
+			'display' => __('Once a minute')
+		);
+		return $schedules;
+	}
+
 
 	/**
 	 * Render the html for short code.
@@ -77,6 +94,20 @@ class Sk_Elnat_Operation_Messages_Public {
 		return ob_get_clean();
 	}
 
+	/**
+	 * Manual trigger for import by querystring.
+	 * example.com/?import_operation_messages={$hash-variable}
+	 *
+	 * @author Daniel Pihlström <daniel.pihlstrom@cybercom.com>
+	 *
+	 */
+	public function import_manual(){
+
+		if ( isset( $_GET['import_operation_messages'] ) && $_GET['import_operation_messages'] === $this->hash ) {
+			$this->import_messages();
+		}
+	}
+
 
 	/**
 	 * Method to handle the import trigger.
@@ -85,16 +116,11 @@ class Sk_Elnat_Operation_Messages_Public {
 	 *
 	 */
 	public function import_messages() {
+		$messages = $this->parse_html();
+		$this->save_messages( $messages );
 
-		// manual trigger for import.
-		// example.com/?import_operation_messages={$hash-variable}
-		if ( isset( $_GET['import_operation_messages'] ) && $_GET['import_operation_messages'] === $this->hash ) {
-			$messages = $this->parse_html();
-			$this->save_messages( $messages );
-		}
-
+		//sk_log('Unable to get json', $url);
 	}
-
 
 	/**
 	 * Parse the html from a given webpage.
@@ -106,7 +132,12 @@ class Sk_Elnat_Operation_Messages_Public {
 	public function parse_html() {
 
 		$doc = new DOMDocument();
-		$doc->loadHTMLFile( 'http://sundsvallelnat.se/default.aspx?id=1055' );
+		$request = $doc->loadHTMLFile( $this->html_file );
+
+		if(! $request ){
+			sk_log('Requested file for operation messages does not exists', $this->html_file );
+			return false;
+		}
 
 		$temp = $doc->getElementById( 'tab3' );
 
@@ -181,9 +212,11 @@ class Sk_Elnat_Operation_Messages_Public {
 	 * @return bool
 	 */
 	public function save_messages( $messages = array() ) {
-
-		if(empty( $messages ))
+		$messages = false;
+		if(empty( $messages )){
+			sk_log('Empty result when parsing html for operation messages', $messages );
 			return false;
+		}
 
 		set_transient('elnat_operation_messages', $messages, false );
 

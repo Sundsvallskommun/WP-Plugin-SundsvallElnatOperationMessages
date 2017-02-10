@@ -30,7 +30,7 @@ class Sk_Elnat_Operation_Messages_Deactivator {
 	 * @since    1.0.0
 	 */
 	public static function deactivate() {
-
+		wp_clear_scheduled_hook( 'sk_elnat_import_messages' );
 	}
 
 }
