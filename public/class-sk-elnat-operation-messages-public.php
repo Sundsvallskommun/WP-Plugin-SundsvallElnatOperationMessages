@@ -118,8 +118,6 @@ class Sk_Elnat_Operation_Messages_Public {
 	public function import_messages() {
 		$messages = $this->parse_html();
 		$this->save_messages( $messages );
-
-		//sk_log('Unable to get json', $url);
 	}
 
 	/**
