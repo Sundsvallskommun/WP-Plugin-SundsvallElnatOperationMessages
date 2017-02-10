@@ -1,0 +1,17 @@
+/**
+ * All of the CSS for your public-facing functionality should be
+ * included in this file.
+ */
+
+.sk-elnat-operation-message .icon{
+    padding-bottom: 0.5em;
+    margin-right: 0.5em;
+    color: #cccccc;
+}
+
+.sk-elnat-operation-message h3{
+    line-height: 1.4;
+}
+.sk-elnat-operation-message.on .icon{
+    color: #ffbf00;
+}
