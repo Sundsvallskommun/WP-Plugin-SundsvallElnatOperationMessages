@@ -72,6 +72,40 @@ class Sk_Elnat_Operation_Messages_Public {
 
 
 	/**
+	 * Show critical message in top.
+	 *
+	 * @author Daniel Pihlström <daniel.pihlstrom@cybercom.com>
+	 *
+	 */
+	public function critical_message(){
+
+		if ( ! is_front_page() ) {
+			return false;
+		}
+
+		wp_enqueue_style( $this->plugin_name );
+		$messages = get_transient( 'elnat_operation_messages' );
+		$limit = 0;
+		?>
+		<div class="sk-elnat-critical-message" style="">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-md-12">
+						<ul>
+							<?php foreach ( $messages as $message ) : $limit ++; ?>
+							<li><?php material_icon( 'info', array( 'size' => '2.5em' ) ); ?><?php echo $message['desc']; ?></li>
+								<?php if($limit === 1 ) break; ?>
+							<?php endforeach; ?>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div><!-- .critical-message -->
+<?php
+
+	}
+
+	/**
 	 * Render the html for short code.
 	 *
 	 * @author Daniel Pihlström <daniel.pihlstrom@cybercom.com>

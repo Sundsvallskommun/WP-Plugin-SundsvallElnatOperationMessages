@@ -3,6 +3,31 @@
  * included in this file.
  */
 
+.sk-elnat-critical-message{
+    margin-top: -1.25em;
+    background: #e5312b;
+    color: #ffffff;
+}
+
+.sk-elnat-critical-message ul {
+    padding: 0;
+    margin: 0;
+    padding-top: 1em;
+    padding-bottom:1em;
+}
+
+.sk-elnat-critical-message li{
+    list-style-type: none;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+
+}
+
+.sk-elnat-critical-message li .icon{
+    padding-bottom: 0.75em;
+    margin-right: 1em;
+}
+
 .sk-elnat-operation-message .icon{
     padding-bottom: 0.5em;
     margin-right: 0.5em;

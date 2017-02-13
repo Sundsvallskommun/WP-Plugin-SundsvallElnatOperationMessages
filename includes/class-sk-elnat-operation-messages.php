@@ -175,6 +175,8 @@ class Sk_Elnat_Operation_Messages {
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
 
+		$this->loader->add_action( 'sk_before_main_content', $plugin_public, 'critical_message' );
+
 		$this->loader->add_filter( 'cron_schedules', $plugin_public, 'add_cron_interval' );
 
 	}
