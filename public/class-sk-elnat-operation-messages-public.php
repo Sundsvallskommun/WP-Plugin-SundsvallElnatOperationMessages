@@ -87,7 +87,7 @@ class Sk_Elnat_Operation_Messages_Public {
 		$messages = get_transient( 'elnat_operation_messages' );
 		$limit = 0;
 		?>
-		<div class="sk-elnat-critical-message" style="">
+		<div class="sk-elnat-critical-message" style="display:none">
 			<div class="container-fluid">
 				<div class="row">
 					<div class="col-md-12">
@@ -100,7 +100,7 @@ class Sk_Elnat_Operation_Messages_Public {
 					</div>
 				</div>
 			</div>
-		</div><!-- .critical-message -->
+		</div><!-- .sk-elnat-critical-message -->
 <?php
 
 	}
