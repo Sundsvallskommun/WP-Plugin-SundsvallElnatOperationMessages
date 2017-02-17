@@ -23,7 +23,7 @@
 class Sk_Elnat_Operation_Messages_Public {
 
 	private $hash = 'a95c530a7af5f492a74499e70578d150';
-	private $html_file = 'http://sundsvallelnat.se/default.aspx?id=1055';
+	private $html_file = 'http://gamla.sundsvallelnat.se/default.aspx?id=1055';
 
 	/**
 	 * The ID of this plugin.
@@ -164,6 +164,10 @@ class Sk_Elnat_Operation_Messages_Public {
 	public function parse_html() {
 
 		$doc = new DOMDocument();
+
+		// disable error for invalid HTML, in some cases we can´t affect the html input
+		libxml_use_internal_errors( true );
+
 		$request = $doc->loadHTMLFile( $this->html_file );
 
 		if(! $request ){
@@ -183,26 +187,27 @@ class Sk_Elnat_Operation_Messages_Public {
 
 				$i = 0;
 				$key = 0;
+				if(!empty($d->childNodes) ) {
 				foreach ( $d->childNodes as $c ) {
 
-					if ( $c->tagName === 'div' ) {
-						$i++;
-						switch ( $i ){
+					if ( isset($c->tagName) && $c->tagName === 'div' ) {
+						$i ++;
+						switch ( $i ) {
 							case 1:
-								$messages[$key]['desc'] = $c->nodeValue;
+								$messages[ $key ]['desc'] = $c->nodeValue;
 								break;
 
 							case 2:
-								$messages[$key]['start'] = $c->nodeValue;
+								$messages[ $key ]['start'] = $c->nodeValue;
 								break;
 
 							case 3:
-								$messages[$key]['end'] = $c->nodeValue;
-								$ended = explode( ': ', $messages[$key]['end'] );
+								$messages[ $key ]['end']  = $c->nodeValue;
+								$ended                    = explode( ': ', $messages[ $key ]['end'] );
 								$messages[ $key ]['icon'] = 'flash on';
-								if( empty( $ended[1] )) {
+								if ( empty( $ended[1] ) ) {
 									$messages[ $key ]['icon'] = 'flash off';
-									unset($messages[$key]['end']);
+									unset( $messages[ $key ]['end'] );
 								}
 
 								break;
@@ -210,11 +215,10 @@ class Sk_Elnat_Operation_Messages_Public {
 						}
 
 
-
 					}
 
 					if ( $c->nodeName === 'hr' ) {
-						$key++;
+						$key ++;
 					}
 
 
@@ -222,7 +226,7 @@ class Sk_Elnat_Operation_Messages_Public {
 						$i = 0;
 					}
 
-
+				}
 				}
 
 			}
