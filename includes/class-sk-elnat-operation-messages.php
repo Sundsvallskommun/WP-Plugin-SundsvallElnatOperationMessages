@@ -170,7 +170,7 @@ class Sk_Elnat_Operation_Messages {
 		$this->loader->add_action( 'init', $plugin_public, 'add_shortcode' );
 
 		$this->loader->add_action( 'init', $plugin_public, 'import_manual' );
-		$this->loader->add_action( 'sk_elnat_import_messages', $this, 'import_messages' );
+		$this->loader->add_action( 'sk_elnat_import_messages', $plugin_public, 'import_messages' );
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
